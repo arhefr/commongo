@@ -84,7 +84,7 @@ func WithLogger(ctx context.Context, l Logger) context.Context {
 	return context.WithValue(ctx, loggerKey, l)
 }
 
-func GetFromContext(ctx context.Context) Logger {
+func FromContext(ctx context.Context) Logger {
 	if log, ok := ctx.Value(loggerKey).(*L); ok {
 		return log
 	}
