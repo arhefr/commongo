@@ -8,6 +8,8 @@ import (
 )
 
 const (
+	loggerKey string = "logger"
+
 	loggerRequestIDKey string = "x-request-id"
 	loggerTraceIDKey   string = "x-trace-id"
 )
@@ -76,4 +78,16 @@ func (l L) Fatal(ctx context.Context, msg string, fields ...zap.Field) {
 	fields = append(fields, zap.Any(loggerRequestIDKey, requestID), zap.Any(loggerTraceIDKey, traceID))
 
 	l.z.Fatal(msg, fields...)
+}
+
+func WithLogger(ctx context.Context, l Logger) context.Context {
+	return context.WithValue(ctx, loggerKey, l)
+}
+
+func GetFromContext(ctx context.Context) Logger {
+	if log, ok := ctx.Value(loggerKey).(*L); ok {
+		return log
+	}
+
+	return nil
 }
