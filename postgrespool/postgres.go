@@ -27,7 +27,7 @@ func NewPool(ctx context.Context, cfg Config) (pool *pgxpool.Pool, err error) {
 		}
 
 		return nil
-	}, cfg.MaxAttemps, time.Duration(cfg.DelayAttemps)*time.Second)
+	}, cfg.MaxAttemps, cfg.DelayAttemps)
 
 	if err != nil {
 		return nil, errors.Join(err, fmt.Errorf("cannot connecting to postgres pool with `postgres://%s:%s@%s:%s/%s`",
